@@ -46,4 +46,4 @@ The Singleton pattern solves two problems at the same time, violating the Single
 pnpm singleton
 ```
 
-[TS implementation here](/singleton.ts)
+[TS implementation here](https://github.com/aandreiradu/js-patterns/blob/main/src/singleton/main.ts)
