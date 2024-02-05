@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "aggregator": "ts-node src/aggregator/main.ts"
+    "aggregator": "ts-node src/aggregator/main.ts",
+    "singleton": "ts-node src/singleton/main.ts"
   },
   "keywords": [],
   "author": "",
