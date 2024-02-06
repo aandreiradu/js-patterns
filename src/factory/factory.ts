@@ -1,43 +1,65 @@
-interface Product {
-  operation(): string;
+import * as fs from 'fs';
+import * as fsp from 'fs/promises';
+import * as path from 'path';
+
+type FileReaderType = 'async' | 'promises';
+interface IProduct {
+  readFile(filePath: string): Promise<string>;
 }
 
-abstract class Creator {
-  private version = 22;
-
-  public abstract factoryMethod(): Product;
-
-  public changeVersion(version: number): void {
-    this.version = version;
-
-    const product = this.factoryMethod();
-
-    console.log(
-      `Creator: The same creator's code has just worked with ${product.operation()}`,
-    );
+class ReadFileConcrete implements IProduct {
+  readFile(filePath: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      resolve('this is the default implementation of the product');
+    });
   }
 }
 
-class ConcreteCreator1 extends Creator {
-  public factoryMethod(): Product {
-    return new ConcreteProduct1();
+class ReadFilePromises extends ReadFileConcrete {
+  readFile(filePath: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const pathToFile = path.join(__dirname, filePath);
+
+      fs.readFile(pathToFile, 'utf-8', (err, data) => {
+        if (err) {
+          console.log('error reading file for ConcreteProductA', err);
+          reject(err);
+        }
+
+        resolve(data);
+      });
+    });
   }
 }
 
-class ConcreteCreator2 extends Creator {
-  public factoryMethod(): Product {
-    return new ConcreteProduct2();
+class ReadFileAsyncAwait extends ReadFileConcrete {
+  async readFile(filePath: string): Promise<string> {
+    try {
+      const pathToFile = path.join(__dirname, filePath);
+
+      const data = await fsp.readFile(pathToFile, 'utf-8');
+      return data;
+    } catch (error) {
+      console.log('unable to read file using ConcreteProductB', error);
+      throw new Error('Unable to read file');
+    }
   }
 }
 
-class ConcreteProduct1 implements Product {
-  operation(): string {
-    return '{Result of the ConcreteProduct1}';
-  }
-}
+export class FileReaderFactory {
+  static createFileReader(type: FileReaderType): IProduct {
+    switch (type) {
+      case 'async': {
+        return new ReadFileAsyncAwait();
+      }
 
-class ConcreteProduct2 implements Product {
-  operation(): string {
-    return '{Result of the ConcreteProduct2}';
+      case 'promises': {
+        return new ReadFilePromises();
+      }
+
+      default: {
+        throw new Error(`Unsupported type ${type}`);
+      }
+    }
   }
 }
