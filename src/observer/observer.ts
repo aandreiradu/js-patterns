@@ -1,17 +1,15 @@
-interface Subject {
+interface Observable {
   subscribe(observer: Observer): void;
   unsubscribe(observer: Observer): void;
   notify(...args: unknown[]): void;
 }
 
 interface Observer {
-  update(subject: Subject): void;
+  update(...args: unknown[]): void;
 }
 
-export class ConcreteSubject implements Subject {
+export class ProductCatalog implements Observable {
   private observers: Observer[] = [];
-
-  public state: number = 0;
 
   subscribe(observer: Observer): void {
     const exists = this.observers.includes(observer);
@@ -33,30 +31,28 @@ export class ConcreteSubject implements Subject {
   }
 
   notify(...args: unknown[]): void {
-    console.log(`Starting to notify the observers...`);
-    for (const observer of this.observers) {
-      console.log('this is', this);
-      observer.update(this);
+    this.observers.forEach((observer) => {
+      observer.update(...args);
+    });
+  }
+
+  addProduct(name: string, price: number) {
+    this.notify(name, price);
+  }
+}
+
+export class AdminDashboardObserver implements Observer {
+  update(name: string, price: number): void {
+    console.log(
+      `Received new product on admin dashboard: ${name}, price: ${price}`,
+    );
+  }
+}
+
+export class UserNotificationObserver implements Observer {
+  update(name: string, price: number): void {
+    if (name === 'iPhone' && price <= 100) {
+      console.log('Sending a notification to users interested on this product');
     }
-  }
-
-  public someBusinessLogic(): void {
-    console.log("\nSubject: I'm doing something important.");
-    this.state = Math.floor(Math.random() * (10 + 1));
-
-    console.log(`Subject: My state has just changed to: ${this.state}`);
-    this.notify();
-  }
-}
-
-export class ConcreteObserverA implements Observer {
-  update(subject: Subject): void {
-    console.log('ConcreteObserverA reacting to the state change');
-  }
-}
-
-export class ConcreteObserverB implements Observer {
-  update(subject: Subject): void {
-    console.log('ConcreteObserverA reacting to the state change');
   }
 }
