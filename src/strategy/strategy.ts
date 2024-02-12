@@ -2,7 +2,7 @@ interface SortAlgorithm {
   sort(list: number[]): number[];
 }
 
-class BubbleSort implements SortAlgorithm {
+export class BubbleSort implements SortAlgorithm {
   sort(list: number[]): number[] {
     if (list.length <= 1) return list;
 
@@ -21,7 +21,7 @@ class BubbleSort implements SortAlgorithm {
   }
 }
 
-class CountSort implements SortAlgorithm {
+export class CountSort implements SortAlgorithm {
   sort(list: number[]): number[] {
     const max = Math.max(...list);
     const occurrences = [];
@@ -46,7 +46,7 @@ class CountSort implements SortAlgorithm {
   }
 }
 
-class Conext {
+export class Conext {
   private algorithm: SortAlgorithm;
 
   constructor(algorithm: SortAlgorithm) {
@@ -61,9 +61,3 @@ class Conext {
     return this.algorithm.sort(list);
   }
 }
-
-const context = new Conext(new CountSort());
-console.log(context.sort([0, 5, 3, 1, 2, 1]));
-
-context.setAlgorithm(new BubbleSort());
-console.log(context.sort([0, 5, 3, 1, 2, 1]));

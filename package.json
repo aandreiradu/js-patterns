@@ -8,7 +8,9 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "aggregator": "ts-node src/aggregator/main.ts",
     "singleton": "ts-node src/singleton/main.ts",
-    "factory": "ts-node src/factory/main.ts"
+    "factory": "ts-node src/factory/main.ts",
+    "observable": "ts-node src/observer/main.ts",
+    "strategy": "ts-node src/strategy/main.ts"
   },
   "keywords": [],
   "author": "",
