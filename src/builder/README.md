@@ -31,3 +31,11 @@ You can go further and extract a series of calls to the builder steps you use to
 Having a director class in your program isn’t strictly necessary. You can always call the building steps in a specific order directly from the client code. However, the director class might be a good place to put various construction routines so you can reuse them across your program.
 
 In addition, the director class completely hides the details of product construction from the client code. The client only needs to associate a builder with a director, launch the construction with the director, and get the result from the builder.
+
+## Pros and cons
+
+| Pros                                                                                                               |                                                  Cons                                                  |
+| ------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------: |
+| You can construct objects step-by-step, defer construction steps or run steps recursively.                         | The overall complexity of the code increases since the pattern requires creating multiple new classes. |
+| You can reuse the same construction code when building various representations of products.                        |                                                                                                        |
+| Single Responsibility Principle. You can isolate complex construction code from the business logic of the product. |                                                                                                        |
