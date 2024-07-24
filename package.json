@@ -11,7 +11,8 @@
     "factory": "ts-node src/factory/main.ts",
     "observable": "ts-node src/observer/main.ts",
     "strategy": "ts-node src/strategy/main.ts",
-    "builder": "ts-node src/builder/main.ts"
+    "builder": "ts-node src/builder/main.ts",
+    "proxy": "ts-node src/proxy/proxy.ts"
   },
   "keywords": [],
   "author": "",
